@@ -69,9 +69,9 @@ for DB in ${POSTGRES_DBS}; do
   #Create dump
   echo "Creating dump of ${DB} database from ${POSTGRES_HOST}..."
   pg_dump -f "${DFILE}" ${POSTGRES_HOST_OPTS} ${DB}
-  #Copy (hardlink) for each entry
-  ln -vf "${DFILE}" "${WFILE}"
-  ln -vf "${DFILE}" "${MFILE}"
+  #Copy (symlink) for each entry
+  ln -vsf "${DFILE}" "${WFILE}"
+  ln -vsf "${DFILE}" "${MFILE}"
   #Clean old files
   echo "Cleaning older than ${KEEP_DAYS} days for ${DB} database from ${POSTGRES_HOST}..."
   find "${BACKUP_DIR}/daily" -maxdepth 1 -mtime +${KEEP_DAYS} -name "${DB}-*.sql*" -exec rm -rf '{}' ';'
